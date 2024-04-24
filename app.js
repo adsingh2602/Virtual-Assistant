@@ -1,9 +1,10 @@
 const btn = document.querySelector('.talk');
 const content = document.querySelector('.content');
 
-function speak(text) {
+function speak(text, lang = 'hi-IN') {
     const text_speak = new SpeechSynthesisUtterance(text);
 
+    text_speak.lang = lang;
     text_speak.rate = 1;
     text_speak.volume = 1;
     text_speak.pitch = 1;
@@ -17,6 +18,10 @@ function wishMe() {
 
     if (hour >= 0 && hour < 12) {
         speak("Good Morning Boss...");
+        // speak("जय श्री राम");
+        // speak("Good morning चोधरी साहब");
+        // speak("सुप्रभात चोधरी साहब");
+        
     } else if (hour >= 12 && hour < 17) {
         speak("Good Afternoon Master...");
     } else {
@@ -25,9 +30,10 @@ function wishMe() {
 }
 
 window.addEventListener('load', () => {
-    speak("Initializing JARVIS...");
+    speak("Initializing Virtuobot...");
     wishMe();
 });
+
 
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 const recognition = new SpeechRecognition();
@@ -50,6 +56,9 @@ function takeCommand(message) {
     } else if (message.includes("open google")) {
         window.open("https://google.com", "_blank");
         speak("Opening Google...");
+    } else if (message.includes("open my college website")) {
+        window.open("https://coeruniversity.ac.in/", "_blank");
+        speak("Opening Coer university website...");
     } else if (message.includes("open youtube")) {
         window.open("https://youtube.com", "_blank");
         speak("Opening Youtube...");
@@ -72,11 +81,29 @@ function takeCommand(message) {
         const date = new Date().toLocaleString(undefined, { month: "short", day: "numeric" });
         const finalText = "Today's date is " + date;
         speak(finalText);
-    } else if (message.includes('calculator')) {
+    }else if (message.includes("play rajat dalal favourite song")) {
+        window.open("https://www.youtube.com/shorts/HKShmuTT-Y4", "_blank");
+        speak("playing rajat dalal favourite song...");
+    }  
+    else if (message.includes('calculator')) {
         window.open('Calculator:///');
         const finalText = "Opening Calculator";
         speak(finalText);
-    } else {
+    }
+
+    else if (message.includes('ram ram') || message.includes('hello')) {
+        speak("ram ram bhai saara ne");
+    }      
+    
+    else if (message.includes('play')) {
+        // Add code here to search for music on YouTube and play it automatically
+        const musicQuery = message.replace('play music', '').trim();
+        const musicUrl = `https://www.youtube.com/results?search_query=${musicQuery}`;
+        window.open(musicUrl, "_blank");
+        const finalText = "Playing music: " + musicQuery;
+        
+    }
+        else {
         window.open(`https://www.google.com/search?q=${message.replace(" ", "+")}`, "_blank");
         const finalText = "I found some information for " + message + " on Google";
         speak(finalText);
